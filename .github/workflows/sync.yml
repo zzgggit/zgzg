@@ -1,0 +1,22 @@
+name: Sync with Upstream
+on:
+  schedule:
+    - cron: "0 12 * * *"
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Sync with upstream
+        run: |
+          git remote add upstream https://github.com/gaotianliuyun/gao.git
+          git fetch upstream
+          git checkout main
+          git merge upstream/main -m "Merge upstream changes"
+          git push origin main
+```
+
+在上面的模板中，使用了一个计划任务（schedule）来定期触发工作流程。这将使工作流程每天的UTC 00:00自动执行一次。你可以根据需要自定义计划任务的时间。
+
+请确保将`<源仓库的URL>`替换为实际的源仓库地址。
