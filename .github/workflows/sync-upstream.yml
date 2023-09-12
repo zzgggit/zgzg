@@ -1,0 +1,23 @@
+name: Sync with upstream
+
+on:
+  schedule: 
+    - cron: '0 * * * *' # 每小时同步一次
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout fork
+        uses: actions/checkout@v2
+        
+      - name: Fetch upstream changes
+        run: git fetch upstream
+      
+      - name: Merge upstream changes
+        run: git merge upstream/main
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
